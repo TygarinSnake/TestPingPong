@@ -16,5 +16,5 @@ class TESTPROJECT_API IMovable
 
 public:
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Movement")
-    void AddMovement(float Scale);
+    void AddMovement(FVector2D Scale);
 };

@@ -15,18 +15,13 @@ void APlayerBoardPawn::BeginPlay()
 {
     Super::BeginPlay();
 
+    check(PawnMovement);
     PawnMovement->SetMoveSpeed(MoveSpeed);
 }
 
-FORCEINLINE void APlayerBoardPawn::MoveRight(const FInputActionValue& InputValue)
-{
-    float ScaleValue = InputValue.Get<float>();
-    AddMovement_Implementation(ScaleValue);
-}
-
-FORCEINLINE void APlayerBoardPawn::AddMovement_Implementation(float Scale)
+FORCEINLINE void APlayerBoardPawn::AddMovement_Implementation(FVector2D Scale)
 {
     check(PawnMovement);
     FVector direction = GetActorRightVector();
-    PawnMovement->AddInputVector(direction * Scale);
+    PawnMovement->AddInputVector(direction * Scale.X);
 }

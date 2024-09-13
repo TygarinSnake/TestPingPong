@@ -36,8 +36,6 @@ protected:
 public:
     APlayerBoardPawn();
 
-    void MoveRight(const FInputActionValue& InputValue);
-
     // Implementation IMovable
-    virtual void AddMovement_Implementation(float Scale) override;
+    virtual void AddMovement_Implementation(FVector2D Scale) override;
 };
