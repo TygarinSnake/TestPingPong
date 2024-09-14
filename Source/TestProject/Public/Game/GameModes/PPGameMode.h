@@ -14,7 +14,7 @@ private:
     TMap<FString, int32> Scores;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Target", meta = (AllowPrivateAccess = "true"))
-    TObjectPtr<AActor> StartPositionBall;
+    FVector StartPositionBall;
 
 protected:
     virtual void BeginPlay() override;

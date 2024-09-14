@@ -27,13 +27,16 @@ private:
 protected:
     virtual void BeginPlay() override;
 
+    UFUNCTION()
+    void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+    FVector ReflectionVector(const FVector& CurrentDirection, const FHitResult& Hit);
+
 public:
     ABallActor();
 
     virtual void Tick(float DeltaTime) override;
 
-    UFUNCTION()
-    void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
-
-    FVector ReflectionVector(const FVector& CurrentDirection, const FHitResult& Hit);
+    FVector GetDirectionMovement();
+    void SetDirectionMovement(FVector NewDirection);
 };

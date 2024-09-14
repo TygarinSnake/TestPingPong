@@ -15,6 +15,7 @@ APPGameMode::APPGameMode()
 
     Scores.Add("Top", 0);
     Scores.Add("Bottom", 0);
+    StartPositionBall = FVector(0.f, 0.f, 150.f);
 }
 
 void APPGameMode::BeginPlay()
@@ -46,7 +47,7 @@ void APPGameMode::OnGoalEventHandler(FString GateName, AActor* OtherActor)
     UpdateScoreboard(Scores);
 
     check(OtherActor);
-    bool bTeleported = OtherActor->TeleportTo(FVector(0.f, 0.f, 150.f), OtherActor->GetActorRotation());
+    bool bTeleported = OtherActor->TeleportTo(StartPositionBall, OtherActor->GetActorRotation());
 
     if (bTeleported)
     {
@@ -87,7 +88,7 @@ void APPGameMode::UpdateScoreboard(const TMap<FString, int32>& NewScore)
         APlayerController* PlayerController = *It;
         if (APPHUD* HUD = Cast<APPHUD>(PlayerController->GetHUD()))
         {
-            HUD->RefreshScoreboard(NewScore);
+            HUD->SetScoreboardData(NewScore);
         }
     }
 }

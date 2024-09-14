@@ -61,3 +61,13 @@ FORCEINLINE void ABallActor::Tick(float DeltaTime)
     check(MovementComponent);
     MovementComponent->AddInputVector(Direction);
 }
+
+FORCEINLINE FVector ABallActor::GetDirectionMovement()
+{
+    return Direction;
+}
+
+FORCEINLINE void ABallActor::SetDirectionMovement(FVector NewDirection)
+{
+    Direction = NewDirection;
+}

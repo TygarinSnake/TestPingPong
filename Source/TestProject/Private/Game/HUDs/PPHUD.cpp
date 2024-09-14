@@ -18,7 +18,7 @@ void APPHUD::EndPlay(const EEndPlayReason::Type EndPlayReason)
     ScoreboardWidget->RemoveFromParent();
 }
 
-FORCEINLINE void APPHUD::RefreshScoreboard(const TMap<FString, int32>& NewScoreMap)
+FORCEINLINE void APPHUD::SetScoreboardData(const TMap<FString, int32>& NewScoreMap)
 {
     ScoreboardWidget->RefreshScoreboard(NewScoreMap);
 }

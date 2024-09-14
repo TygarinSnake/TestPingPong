@@ -22,5 +22,5 @@ protected:
     void EndPlay(const EEndPlayReason::Type EndPlayReason);
 
 public:
-    void RefreshScoreboard(const TMap<FString, int32>& NewScoreMap);
+     void SetScoreboardData(const TMap<FString, int32>& NewScoreMap);
 };
