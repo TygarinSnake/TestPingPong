@@ -4,7 +4,8 @@
 #include "Blueprint/UserWidget.h"
 #include "ScoreboardUserWidget.generated.h"
 
-class UTextBlock;
+class UScrollBox;
+class UScoreLineUserWidget;
 
 UCLASS(Abstract)
 class TESTPROJECT_API UScoreboardUserWidget : public UUserWidget
@@ -13,11 +14,11 @@ class TESTPROJECT_API UScoreboardUserWidget : public UUserWidget
 
 protected:
     UPROPERTY(meta = (BindWidget))
-    TObjectPtr<UTextBlock> TextBlock_TopScore;
+    TObjectPtr<UScrollBox> ScrollBox_Scoreboard;
 
-    UPROPERTY(meta = (BindWidget))
-    TObjectPtr<UTextBlock> TextBlock_BottomScore;
+    UPROPERTY(EditDefaultsOnly)
+    TSubclassOf<UScoreLineUserWidget> LineWidgetClass;
 
 public:
-    void NativeConstruct();
+    void RefreshScoreboard(const TMap<FString, int32>& NewScoreMap);
 };

@@ -2,7 +2,7 @@
 
 UBaseMovementComponent::UBaseMovementComponent()
 {
-    MoveSpeed = 600.0f;
+    Velocity = 600.0f;
 }
 
 void UBaseMovementComponent::BeginPlay()
@@ -11,18 +11,18 @@ void UBaseMovementComponent::BeginPlay()
     Owner = GetOwner();
 }
 
-void UBaseMovementComponent::AddInputVector(const FVector& Direction)
+FORCEINLINE void UBaseMovementComponent::AddInputVector(const FVector& Direction)
 {
     check(Owner);
-    FVector Movement = Direction.GetSafeNormal() * MoveSpeed * GetWorld()->GetDeltaSeconds();
+    FVector Movement = Direction.GetSafeNormal() * Velocity * GetWorld()->GetDeltaSeconds();
 
     Owner->AddActorWorldOffset(Movement, true);
 }
 
-void UBaseMovementComponent::SetMoveSpeed(float NewSpeed)
+void UBaseMovementComponent::SetVelocity(float NewSpeed)
 {
     if (NewSpeed >= 0)
     {
-        MoveSpeed = NewSpeed;
+        Velocity = NewSpeed;
     }
 }

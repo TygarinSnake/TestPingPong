@@ -22,6 +22,7 @@ private:
 
 protected:
     virtual void BeginPlay() override;
+    void SetupMappingContext();
     void SetupInputActions();
 
 public:

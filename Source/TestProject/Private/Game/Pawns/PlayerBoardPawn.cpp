@@ -16,12 +16,12 @@ void APlayerBoardPawn::BeginPlay()
     Super::BeginPlay();
 
     check(PawnMovement);
-    PawnMovement->SetMoveSpeed(MoveSpeed);
+    PawnMovement->SetVelocity(MoveSpeed);
 }
 
 FORCEINLINE void APlayerBoardPawn::AddMovement_Implementation(FVector2D Scale)
 {
     check(PawnMovement);
-    FVector direction = GetActorRightVector();
-    PawnMovement->AddInputVector(direction * Scale.X);
+    FVector Direction = GetActorRightVector();
+    PawnMovement->AddInputVector(Direction * Scale.X);
 }

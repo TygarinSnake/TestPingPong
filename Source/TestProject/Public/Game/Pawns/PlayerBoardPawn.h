@@ -32,6 +32,7 @@ private:
 
 protected:
     virtual void BeginPlay() override;
+    //virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 public:
     APlayerBoardPawn();

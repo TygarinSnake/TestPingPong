@@ -11,7 +11,7 @@ class TESTPROJECT_API UBaseMovementComponent : public UActorComponent
 
 private:
     UPROPERTY(EditAnywhere, meta = (ClampMin = "0.0"), Category = "Movement")
-    float MoveSpeed;
+    float Velocity;
 
     TObjectPtr<AActor> Owner;
 
@@ -22,5 +22,5 @@ public:
     UBaseMovementComponent();
 
     void AddInputVector(const FVector& Direction);
-    void SetMoveSpeed(float NewSpeed);
+    void SetVelocity(float NewSpeed);
 };

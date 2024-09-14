@@ -4,7 +4,8 @@
 #include "GameFramework/Actor.h"
 #include "BallActor.generated.h"
 
-class UFloatingPawnMovement;
+class UBaseMovementComponent;
+class USphereComponent;
 
 UCLASS()
 class TESTPROJECT_API ABallActor : public AActor
@@ -13,17 +14,26 @@ class TESTPROJECT_API ABallActor : public AActor
 
 private:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement", meta = (AllowPrivateAccess = "true"))
-    TObjectPtr<UFloatingPawnMovement> FloatingPawnMovement;
+    TObjectPtr<UBaseMovementComponent> MovementComponent;
 
-public:
-    // Sets default values for this actor's properties
-    ABallActor();
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Collision", meta = (AllowPrivateAccess = "true"))
+    TObjectPtr<USphereComponent> CollisionComponent;
+
+    UPROPERTY(EditAnywhere, meta = (ClampMin = "0.0"), Category = "Move")
+    float MoveSpeed;
+
+    FVector Direction;
 
 protected:
-    // Called when the game starts or when spawned
     virtual void BeginPlay() override;
 
 public:
-    // Called every frame
+    ABallActor();
+
     virtual void Tick(float DeltaTime) override;
+
+    UFUNCTION()
+    void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+    FVector ReflectionVector(const FVector& CurrentDirection, const FHitResult& Hit);
 };

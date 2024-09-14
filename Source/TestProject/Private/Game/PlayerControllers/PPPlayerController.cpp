@@ -8,7 +8,11 @@
 void APPPlayerController::BeginPlay()
 {
     Super::BeginPlay();
+    SetupMappingContext();
+}
 
+void APPPlayerController::SetupMappingContext()
+{
     if (ULocalPlayer* LocalPlayer = GetLocalPlayer())
     {
         if (UEnhancedInputLocalPlayerSubsystem* Subsystem =
