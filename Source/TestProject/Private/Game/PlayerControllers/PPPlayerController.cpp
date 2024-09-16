@@ -3,12 +3,14 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 
+#include "Game/GameModes/PPGameMode.h"
 #include "Game/Interfaces/Movable.h"
 
 void APPPlayerController::BeginPlay()
 {
     Super::BeginPlay();
     SetupMappingContext();
+    Client_NotifyLoaded();
 }
 
 void APPPlayerController::SetupMappingContext()
@@ -32,14 +34,25 @@ void APPPlayerController::SetupInputActions()
     }
 }
 
+void APPPlayerController::Client_NotifyLoaded_Implementation()
+{
+    Server_PlayerLoaded();
+}
+
+void APPPlayerController::Server_PlayerLoaded_Implementation()
+{
+    if (APPGameMode* MyGameMode = GetWorld()->GetAuthGameMode<APPGameMode>())
+    {
+        MyGameMode->OnPostLogin(this);
+    }
+}
+
 FORCEINLINE void APPPlayerController::Move(const FInputActionValue& InputValue)
 {
-    if (!GetPawn())
+    if (GetPawn())
     {
-        return;
+        const float ScaleValue = InputValue.Get<float>();
+        FVector2D ScaleVector = FVector2D(ScaleValue, 0.f);
+        IMovable::Execute_AddMovement(GetPawn(), ScaleVector);
     }
-
-    const float ScaleValue = InputValue.Get<float>();
-    FVector2D ScaleVector = FVector2D(ScaleValue, 0.f);
-    IMovable::Execute_AddMovement(GetPawn(), ScaleVector);
 }

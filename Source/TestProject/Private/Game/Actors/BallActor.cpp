@@ -9,7 +9,7 @@ DEFINE_LOG_CATEGORY_STATIC(LogBallActor, All, All);
 
 ABallActor::ABallActor()
 {
-    Direction = FVector(1.f, 1.f, 0.f);
+    Direction = FVector::Zero();
     MoveSpeed = 2000.f;
     PrimaryActorTick.bCanEverTick = true;
 
@@ -29,7 +29,6 @@ ABallActor::ABallActor()
 
 void ABallActor::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-    check(OtherActor);
     if (!OtherActor || OtherActor == this)
     {
         return;
@@ -64,10 +63,10 @@ FORCEINLINE void ABallActor::Tick(float DeltaTime)
 
 FORCEINLINE FVector ABallActor::GetDirectionMovement() const
 {
-    return FVector();
+    return Direction;
 }
 
-FORCEINLINE void ABallActor::SetDirectionMovement(FVector NewDirection)
+FORCEINLINE void ABallActor::SetDirectionMovement(FVector VectorDirection)
 {
-    Direction = NewDirection;
+    Direction = VectorDirection;
 }

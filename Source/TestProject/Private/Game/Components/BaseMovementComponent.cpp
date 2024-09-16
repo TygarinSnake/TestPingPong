@@ -7,6 +7,7 @@ UBaseMovementComponent::UBaseMovementComponent()
     MaxSpeed = 600.0f;
     InterpSpeed = 5.f;
     bIsCollisoin = true;
+    bIsHavePlayerControlled = false;
     TargetPosition = FVector::Zero();
     SetIsReplicatedByDefault(true);
 }
@@ -15,11 +16,17 @@ void UBaseMovementComponent::BeginPlay()
 {
     Super::BeginPlay();
     Owner = GetOwner();
+
+    if (APawn* pawn = Cast<APawn>(Owner))
+    {
+        APlayerController* PlayerController = Cast<APlayerController>(pawn->GetController());
+        bIsHavePlayerControlled = IsValid(PlayerController);
+    }
 }
 
 FORCEINLINE void UBaseMovementComponent::AddInputVector(const FVector& Direction)
 {
-    if (GetOwnerRole() != ROLE_Authority)
+    if (bIsHavePlayerControlled && GetOwnerRole() != ROLE_Authority)
     {
         Server_AddInputVector(Direction);
     }
@@ -56,6 +63,11 @@ void UBaseMovementComponent::SetMaxSpeed(float NewSpeed)
     {
         MaxSpeed = NewSpeed;
     }
+}
+
+void UBaseMovementComponent::SetIsPossesed(bool IsPossesed)
+{
+    bIsHavePlayerControlled = IsPossesed;
 }
 
 void UBaseMovementComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

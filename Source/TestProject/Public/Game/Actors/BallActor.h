@@ -38,5 +38,5 @@ public:
     virtual void Tick(float DeltaTime) override;
 
     FVector GetDirectionMovement() const;
-    void SetDirectionMovement(FVector NewDirection);
+    void SetDirectionMovement(FVector VectorDirection);
 };

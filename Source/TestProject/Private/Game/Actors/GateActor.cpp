@@ -2,6 +2,8 @@
 
 #include "Components/BoxComponent.h"
 
+#include "Game/Actors/BallActor.h"
+
 DEFINE_LOG_CATEGORY_STATIC(LogGateActor, All, All);
 
 AGateActor::AGateActor()
@@ -16,8 +18,11 @@ void AGateActor::OnOverlapBegin_Implementation(UPrimitiveComponent* OverlappedCo
     UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
     bool bFromSweep, const FHitResult& SweepResult)
 {
-    UE_LOG(LogGateActor, Display, TEXT("Goal in %s"), *GateNameWinnerSide);
-    OnGoalEvent.Broadcast(GateNameWinnerSide, OtherActor);
+    if (IsValid(Cast<ABallActor>(OtherActor)))
+    {
+        UE_LOG(LogGateActor, Display, TEXT("Goal in %s"), *GateNameWinnerSide);
+        OnGoalEvent.Broadcast(GateNameWinnerSide, OtherActor);
+    }
 }
 
 FORCEINLINE void AGateActor::EndPlay(const EEndPlayReason::Type EndPlayReason)

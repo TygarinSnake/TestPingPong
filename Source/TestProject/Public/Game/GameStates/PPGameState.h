@@ -7,12 +7,14 @@
 UCLASS()
 class TESTPROJECT_API APPGameState : public AGameStateBase
 {
-	GENERATED_BODY()
-	
+    GENERATED_BODY()
+
 private:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Scores", meta = (AllowPrivateAccess = "true"))
     TMap<FString, int32> Scores;
 
+
+    
 protected:
     virtual void BeginPlay() override;
 
@@ -21,6 +23,12 @@ public:
 
     UFUNCTION(NetMulticast, Reliable)
     void Multicast_UpdateScoreboard(const FString& GateName);
+
+    UFUNCTION(NetMulticast, Reliable)
+    void Multicast_NotifyPlayerStartGame();
+
+    UFUNCTION(NetMulticast, Reliable)
+    void Multicast_NotifyPlayerStopGame();
 
     void UpdatePlayerScoreboardWidget();
 };

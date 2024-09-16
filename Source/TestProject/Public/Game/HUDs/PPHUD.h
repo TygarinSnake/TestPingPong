@@ -4,6 +4,7 @@
 #include "GameFramework/HUD.h"
 #include "PPHUD.generated.h"
 
+class UUserWidget;
 class UScoreboardUserWidget;
 
 UCLASS()
@@ -14,8 +15,13 @@ class TESTPROJECT_API APPHUD : public AHUD
 private:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widgets", meta = (AllowPrivateAccess = "true"))
     TSubclassOf<UScoreboardUserWidget> ScoreboardWidgetClass;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widgets", meta = (AllowPrivateAccess = "true"))
+    TSubclassOf<UUserWidget> WaitConnectionWidgetClass;
 
+    UPROPERTY(Replicated)
     TObjectPtr<UScoreboardUserWidget> ScoreboardWidget;
+    UPROPERTY(Replicated)
+    TObjectPtr<UUserWidget> WaitConnectionWidget;
 
 protected:
     virtual void BeginPlay() override;
@@ -23,4 +29,10 @@ protected:
 
 public:
      void SetScoreboardData(const TMap<FString, int32>& NewScoreMap);
+
+     void ShowScoreboardWidget();
+     void ShowWaitConnectionWidget();
+     void HideScoreboardWidget();
+     void HideWaitConnectionWidget();
+     void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const;
 };

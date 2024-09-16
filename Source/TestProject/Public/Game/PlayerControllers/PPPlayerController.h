@@ -25,6 +25,12 @@ protected:
     void SetupMappingContext();
     void SetupInputActions();
 
+    UFUNCTION(Client, Reliable)
+    void Client_NotifyLoaded();
+
+    UFUNCTION(Server, Reliable)
+    void Server_PlayerLoaded();
+
 public:
     void Move(const FInputActionValue& InputValue);
 };

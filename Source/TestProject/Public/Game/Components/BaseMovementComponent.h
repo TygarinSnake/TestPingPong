@@ -22,6 +22,8 @@ private:
     UPROPERTY(Replicated = COND_InitialOnly, EditAnywhere, Category = "Collision")
     bool bIsCollisoin;
 
+     bool bIsHavePlayerControlled;
+
     FVector TargetPosition;
 
     TObjectPtr<AActor> Owner;
@@ -40,6 +42,7 @@ public:
 
     UFUNCTION(BlueprintCallable, Category = "Movement")
     void SetMaxSpeed(float NewVelocity);
+    void SetIsPossesed(bool IsPossesed);
 
     UFUNCTION(Server, Unreliable)
     void Server_AddInputVector(const FVector& Direction);
