@@ -1,8 +1,14 @@
 #include "Game/Components/BaseMovementComponent.h"
 
+#include "Net/UnrealNetwork.h"
+
 UBaseMovementComponent::UBaseMovementComponent()
 {
-    Velocity = 600.0f;
+    MaxSpeed = 600.0f;
+    InterpSpeed = 5.f;
+    bIsCollisoin = true;
+    TargetPosition = FVector::Zero();
+    SetIsReplicatedByDefault(true);
 }
 
 void UBaseMovementComponent::BeginPlay()
@@ -13,16 +19,51 @@ void UBaseMovementComponent::BeginPlay()
 
 FORCEINLINE void UBaseMovementComponent::AddInputVector(const FVector& Direction)
 {
-    check(Owner);
-    FVector Movement = Direction.GetSafeNormal() * Velocity * GetWorld()->GetDeltaSeconds();
+    if (GetOwnerRole() != ROLE_Authority)
+    {
+        Server_AddInputVector(Direction);
+    }
 
-    Owner->AddActorWorldOffset(Movement, true);
+    check(Owner);
+    InputVector = Direction.GetSafeNormal() * MaxSpeed * GetWorld()->GetDeltaSeconds();
+    TargetPosition = Owner->GetActorLocation() + InputVector;
+
+    Owner->SetActorLocation(TargetPosition, bIsCollisoin);
 }
 
-void UBaseMovementComponent::SetVelocity(float NewSpeed)
+void UBaseMovementComponent::Server_AddInputVector_Implementation(const FVector& Direction)
 {
+    AddInputVector(Direction);
+}
+
+void UBaseMovementComponent::OnRep_InputVector()
+{
+    if (Owner)
+    {
+        TargetPosition = Owner->GetActorLocation() + InputVector;
+        Owner->SetActorLocation(TargetPosition, bIsCollisoin);
+    }
+}
+
+void UBaseMovementComponent::SetMaxSpeed(float NewSpeed)
+{
+    if (GetOwnerRole() != ROLE_Authority)
+    {
+        return;
+    }
+
     if (NewSpeed >= 0)
     {
-        Velocity = NewSpeed;
+        MaxSpeed = NewSpeed;
     }
+}
+
+void UBaseMovementComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+    DOREPLIFETIME(UBaseMovementComponent, MaxSpeed);
+    DOREPLIFETIME(UBaseMovementComponent, InputVector);
+    DOREPLIFETIME(UBaseMovementComponent, bIsCollisoin);
+    DOREPLIFETIME(UBaseMovementComponent, InterpSpeed);
 }

@@ -51,7 +51,7 @@ void ABallActor::BeginPlay()
     Super::BeginPlay();
 
     check(MovementComponent);
-    MovementComponent->SetVelocity(MoveSpeed);
+    MovementComponent->SetMaxSpeed(MoveSpeed);
 }
 
 FORCEINLINE void ABallActor::Tick(float DeltaTime)
@@ -62,9 +62,9 @@ FORCEINLINE void ABallActor::Tick(float DeltaTime)
     MovementComponent->AddInputVector(Direction);
 }
 
-FORCEINLINE FVector ABallActor::GetDirectionMovement()
+FORCEINLINE FVector ABallActor::GetDirectionMovement() const
 {
-    return Direction;
+    return FVector();
 }
 
 FORCEINLINE void ABallActor::SetDirectionMovement(FVector NewDirection)

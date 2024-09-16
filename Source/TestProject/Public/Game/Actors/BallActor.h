@@ -7,7 +7,7 @@
 class UBaseMovementComponent;
 class USphereComponent;
 
-UCLASS()
+UCLASS(Abstract)
 class TESTPROJECT_API ABallActor : public AActor
 {
     GENERATED_BODY()
@@ -37,6 +37,6 @@ public:
 
     virtual void Tick(float DeltaTime) override;
 
-    FVector GetDirectionMovement();
+    FVector GetDirectionMovement() const;
     void SetDirectionMovement(FVector NewDirection);
 };

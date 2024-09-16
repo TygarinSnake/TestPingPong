@@ -34,7 +34,11 @@ void APPPlayerController::SetupInputActions()
 
 FORCEINLINE void APPPlayerController::Move(const FInputActionValue& InputValue)
 {
-    check(GetPawn());
+    if (!GetPawn())
+    {
+        return;
+    }
+
     const float ScaleValue = InputValue.Get<float>();
     FVector2D ScaleVector = FVector2D(ScaleValue, 0.f);
     IMovable::Execute_AddMovement(GetPawn(), ScaleVector);

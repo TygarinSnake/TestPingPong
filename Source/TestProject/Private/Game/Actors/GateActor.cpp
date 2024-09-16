@@ -12,12 +12,12 @@ AGateActor::AGateActor()
     CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ThisClass::OnOverlapBegin);
 }
 
-void AGateActor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+void AGateActor::OnOverlapBegin_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
     UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
     bool bFromSweep, const FHitResult& SweepResult)
 {
-    UE_LOG(LogGateActor, Display, TEXT("Goal in %s"), *GateName);
-    OnGoalEvent.Broadcast(GateName, OtherActor);
+    UE_LOG(LogGateActor, Display, TEXT("Goal in %s"), *GateNameWinnerSide);
+    OnGoalEvent.Broadcast(GateNameWinnerSide, OtherActor);
 }
 
 FORCEINLINE void AGateActor::EndPlay(const EEndPlayReason::Type EndPlayReason)

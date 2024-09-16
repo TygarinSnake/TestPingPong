@@ -7,21 +7,22 @@
 
 APlayerBoardPawn::APlayerBoardPawn()
 {
-    PawnMovement = CreateDefaultSubobject<UBaseMovementComponent>(TEXT("MovementComponent"));
-    check(PawnMovement);
+    MoveMaxSpeed = 600.f;
+    MovementComponent = CreateDefaultSubobject<UBaseMovementComponent>(TEXT("MovementComponent"));
+    check(MovementComponent);
 }
 
 void APlayerBoardPawn::BeginPlay()
 {
     Super::BeginPlay();
 
-    check(PawnMovement);
-    PawnMovement->SetVelocity(MoveSpeed);
+    check(MovementComponent);
+    MovementComponent->SetMaxSpeed(MoveMaxSpeed);
 }
 
 FORCEINLINE void APlayerBoardPawn::AddMovement_Implementation(FVector2D Scale)
 {
-    check(PawnMovement);
+    check(MovementComponent);
     FVector Direction = GetActorRightVector();
-    PawnMovement->AddInputVector(Direction * Scale.X);
+    MovementComponent->AddInputVector(Direction * Scale.X);
 }

@@ -7,28 +7,20 @@
 
 #include "PlayerBoardPawn.generated.h"
 
-class UInputMappingContext;
-class UInputAction;
 class UBaseMovementComponent;
 struct FInputActionValue;
 
-UCLASS()
+UCLASS(Abstract)
 class TESTPROJECT_API APlayerBoardPawn : public APawn, public IMovable
 {
     GENERATED_BODY()
 
 private:
-    UPROPERTY(EditAnywhere, Category = "Input")
-    TObjectPtr<UInputMappingContext> PlayerMappingContext;
-
-    UPROPERTY(EditAnywhere, Category = "Input")
-    TObjectPtr<UInputAction> IA_Move;
-
     UPROPERTY(EditAnywhere, meta = (ClampMin = "0.0"), Category = "Move")
-    float MoveSpeed;
+    float MoveMaxSpeed;
 
     UPROPERTY(Category = Pawn, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    TObjectPtr<UBaseMovementComponent> PawnMovement;
+    TObjectPtr<UBaseMovementComponent> MovementComponent;
 
 protected:
     virtual void BeginPlay() override;

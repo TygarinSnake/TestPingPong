@@ -18,7 +18,7 @@ private:
     TObjectPtr<UBoxComponent> CollisionComponent;
 
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Name", meta = (AllowPrivateAccess = "true"))
-    FString GateName;
+    FString GateNameWinnerSide;
 
 public:
     UPROPERTY(BlueprintAssignable, Category = "Events")
@@ -30,7 +30,7 @@ protected:
 public:
     AGateActor();
 
-    UFUNCTION()
+    UFUNCTION(Server, Reliable)
     void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
         UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
         bool bFromSweep, const FHitResult& SweepResult);

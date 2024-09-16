@@ -10,17 +10,39 @@ class TESTPROJECT_API UBaseMovementComponent : public UActorComponent
     GENERATED_BODY()
 
 private:
-    UPROPERTY(EditAnywhere, meta = (ClampMin = "0.0"), Category = "Movement")
-    float Velocity;
+    UPROPERTY(Replicated = COND_InitialOnly, EditAnywhere, meta = (ClampMin = "0.0"), Category = "Movement")
+    float MaxSpeed;
+
+    UPROPERTY(Replicated = COND_InitialOnly, EditAnywhere, Category = "Movement")
+    float InterpSpeed;
+
+    UPROPERTY(ReplicatedUsing = OnRep_InputVector)
+    FVector InputVector;
+
+    UPROPERTY(Replicated = COND_InitialOnly, EditAnywhere, Category = "Collision")
+    bool bIsCollisoin;
+
+    FVector TargetPosition;
 
     TObjectPtr<AActor> Owner;
 
 protected:
     virtual void BeginPlay() override;
 
+    UFUNCTION()
+    void OnRep_InputVector();
+
 public:
     UBaseMovementComponent();
 
+    UFUNCTION(BlueprintCallable, Category = "Movement")
     void AddInputVector(const FVector& Direction);
-    void SetVelocity(float NewSpeed);
+
+    UFUNCTION(BlueprintCallable, Category = "Movement")
+    void SetMaxSpeed(float NewVelocity);
+
+    UFUNCTION(Server, Unreliable)
+    void Server_AddInputVector(const FVector& Direction);
+
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };
