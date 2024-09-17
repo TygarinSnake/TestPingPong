@@ -30,7 +30,7 @@ void APPGameState::BeginPlay()
     UpdatePlayerScoreboardWidget();
 }
 
-void APPGameState::UpdatePlayerScoreboardWidget()
+FORCEINLINE void APPGameState::UpdatePlayerScoreboardWidget()
 {
     PlayerControllerHUDIIteration(
         [](APPHUD* HUD, TMap<FString, int32>* Map)

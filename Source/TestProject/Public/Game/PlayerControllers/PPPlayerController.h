@@ -8,7 +8,7 @@ class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 
-UCLASS()
+UCLASS(Abstract)
 class TESTPROJECT_API APPPlayerController : public APlayerController
 {
     GENERATED_BODY()
@@ -32,5 +32,7 @@ protected:
     void Server_PlayerLoaded();
 
 public:
-    void Move(const FInputActionValue& InputValue);
+    APPPlayerController();
+
+    void MoveRight(const FInputActionValue& InputValue);
 };

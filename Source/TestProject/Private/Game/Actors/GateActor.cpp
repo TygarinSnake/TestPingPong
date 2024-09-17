@@ -25,7 +25,7 @@ void AGateActor::OnOverlapBegin_Implementation(UPrimitiveComponent* OverlappedCo
     }
 }
 
-FORCEINLINE void AGateActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
+void AGateActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
     Super::EndPlay(EndPlayReason);
     OnGoalEvent.Clear();

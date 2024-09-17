@@ -6,7 +6,7 @@
 
 class ABallActor;
 
-UCLASS()
+UCLASS(Abstract)
 class TESTPROJECT_API APPGameMode : public AGameModeBase
 {
     GENERATED_BODY()
@@ -27,6 +27,12 @@ private:
 protected:
     virtual void BeginPlay() override;
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+    virtual void PostLogin(APlayerController* NewPlayer) override;
+
+    void SubscribeOnGoalEvent();
+    void UnsubscribeOnGoalEvent();
+
+    void CheckConnectedPlayerForStartGame();
     FVector GetRandomDirection() const;
 
 public:
@@ -37,9 +43,7 @@ public:
 
     UFUNCTION()
     void OnGoalEventHandler(FString GateName, AActor* OtherActor);
-    void SubscribeOnGoalEvent();
-    void UnsubscribeOnGoalEvent();
+
     void StartGame();
     void WaitStartGame();
-    void CheckConnectedPlayerForStartGame();
 };

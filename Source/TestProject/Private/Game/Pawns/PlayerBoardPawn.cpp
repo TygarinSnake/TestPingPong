@@ -20,7 +20,7 @@ void APlayerBoardPawn::BeginPlay()
     MovementComponent->SetMaxSpeed(MoveMaxSpeed);
 }
 
-FORCEINLINE void APlayerBoardPawn::AddMovement_Implementation(FVector2D Scale)
+void APlayerBoardPawn::AddMovement_Implementation(FVector2D Scale)
 {
     check(MovementComponent);
     FVector Direction = GetActorRightVector();

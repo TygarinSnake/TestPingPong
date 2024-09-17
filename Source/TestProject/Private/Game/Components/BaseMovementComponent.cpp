@@ -24,7 +24,7 @@ void UBaseMovementComponent::BeginPlay()
     }
 }
 
-FORCEINLINE void UBaseMovementComponent::AddInputVector(const FVector& Direction)
+void UBaseMovementComponent::AddInputVector(FVector Direction)
 {
     if (bIsHavePlayerControlled && GetOwnerRole() != ROLE_Authority)
     {
@@ -38,7 +38,7 @@ FORCEINLINE void UBaseMovementComponent::AddInputVector(const FVector& Direction
     Owner->SetActorLocation(TargetPosition, bIsCollisoin);
 }
 
-void UBaseMovementComponent::Server_AddInputVector_Implementation(const FVector& Direction)
+void UBaseMovementComponent::Server_AddInputVector_Implementation(FVector Direction)
 {
     AddInputVector(Direction);
 }

@@ -4,6 +4,8 @@
 #include "GameFramework/GameStateBase.h"
 #include "PPGameState.generated.h"
 
+class APlayerController;
+
 UCLASS()
 class TESTPROJECT_API APPGameState : public AGameStateBase
 {
@@ -13,10 +15,10 @@ private:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Scores", meta = (AllowPrivateAccess = "true"))
     TMap<FString, int32> Scores;
 
-
-    
 protected:
     virtual void BeginPlay() override;
+
+    void UpdatePlayerScoreboardWidget();
 
 public:
     APPGameState();
@@ -29,6 +31,4 @@ public:
 
     UFUNCTION(NetMulticast, Reliable)
     void Multicast_NotifyPlayerStopGame();
-
-    void UpdatePlayerScoreboardWidget();
 };

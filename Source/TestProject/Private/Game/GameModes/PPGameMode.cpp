@@ -2,6 +2,7 @@
 
 #include "EngineUtils.h"
 #include "Engine/World.h"
+#include "GameFramework/SpectatorPawn.h"
 
 #include "Game/GameStates/PPGameState.h"
 #include "Game/Actors/GateActor.h"
@@ -11,6 +12,7 @@ DEFINE_LOG_CATEGORY_STATIC(LogPPGameMode, All, All);
 
 APPGameMode::APPGameMode()
 {
+    SpectatorClass = ASpectatorPawn::StaticClass();
     GameStateClass = APPGameState::StaticClass();
 
     StartPositionBall = FVector(0.f, 0.f, 150.f);
@@ -28,6 +30,7 @@ void APPGameMode::BeginPlay()
 
     BallActor = GetWorld()->SpawnActor<ABallActor>(BallActorClass, StartPositionBall, FRotator::ZeroRotator);
     check(BallActor);
+    BallActor->SetIsMove(false);
 }
 
 void APPGameMode::SubscribeOnGoalEvent()
@@ -78,6 +81,14 @@ FORCEINLINE FVector APPGameMode::GetRandomDirection() const
         0.f);
 }
 
+void APPGameMode::PostLogin(APlayerController* NewPlayer)
+{
+    Super::PostLogin(NewPlayer);
+
+    check(NewPlayer);
+    UE_LOG(LogTemp, Log, TEXT("Player %s has joined as a spectator"), *NewPlayer->GetName());
+}
+
 void APPGameMode::OnPostLogin(APlayerController* NewPlayer)
 {
     check(NewPlayer);
@@ -110,6 +121,7 @@ void APPGameMode::StartGame()
 
     check(BallActor);
     BallActor->SetDirectionMovement(StartBallDirection);
+    BallActor->SetIsMove(true);
 
     UE_LOG(LogPPGameMode, Display, TEXT("The game has started!"));
 }
@@ -123,8 +135,7 @@ void APPGameMode::WaitStartGame()
 
     check(BallActor);
     bool bTeleported = BallActor->TeleportTo(StartPositionBall, BallActor->GetActorRotation());
-
-    BallActor->SetDirectionMovement(FVector::Zero());
+    BallActor->SetIsMove(false);
 
     UE_LOG(LogPPGameMode, Display, TEXT("The game has stoped!"));
 }

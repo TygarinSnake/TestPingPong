@@ -22,7 +22,7 @@ private:
     UPROPERTY(Replicated = COND_InitialOnly, EditAnywhere, Category = "Collision")
     bool bIsCollisoin;
 
-     bool bIsHavePlayerControlled;
+    bool bIsHavePlayerControlled;
 
     FVector TargetPosition;
 
@@ -34,18 +34,17 @@ protected:
     UFUNCTION()
     void OnRep_InputVector();
 
+    UFUNCTION(Server, Unreliable)
+    void Server_AddInputVector(FVector Direction);
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 public:
     UBaseMovementComponent();
 
     UFUNCTION(BlueprintCallable, Category = "Movement")
-    void AddInputVector(const FVector& Direction);
+    void AddInputVector(FVector Direction);
 
     UFUNCTION(BlueprintCallable, Category = "Movement")
     void SetMaxSpeed(float NewVelocity);
     void SetIsPossesed(bool IsPossesed);
-
-    UFUNCTION(Server, Unreliable)
-    void Server_AddInputVector(const FVector& Direction);
-
-    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };

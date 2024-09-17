@@ -13,7 +13,7 @@ void APPPlayerController::BeginPlay()
     Client_NotifyLoaded();
 }
 
-void APPPlayerController::SetupMappingContext()
+FORCEINLINE void APPPlayerController::SetupMappingContext()
 {
     if (ULocalPlayer* LocalPlayer = GetLocalPlayer())
     {
@@ -26,11 +26,11 @@ void APPPlayerController::SetupMappingContext()
     }
 }
 
-void APPPlayerController::SetupInputActions()
+FORCEINLINE void APPPlayerController::SetupInputActions()
 {
     if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
     {
-        EnhancedInputComponent->BindAction(IA_Move, ETriggerEvent::Triggered, this, &ThisClass::Move);
+        EnhancedInputComponent->BindAction(IA_Move, ETriggerEvent::Triggered, this, &ThisClass::MoveRight);
     }
 }
 
@@ -47,7 +47,12 @@ void APPPlayerController::Server_PlayerLoaded_Implementation()
     }
 }
 
-FORCEINLINE void APPPlayerController::Move(const FInputActionValue& InputValue)
+APPPlayerController::APPPlayerController()
+{
+    bReplicates = true;
+}
+
+void APPPlayerController::MoveRight(const FInputActionValue& InputValue)
 {
     if (GetPawn())
     {

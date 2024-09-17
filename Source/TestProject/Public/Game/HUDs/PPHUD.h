@@ -7,7 +7,7 @@
 class UUserWidget;
 class UScoreboardUserWidget;
 
-UCLASS()
+UCLASS(Abstract)
 class TESTPROJECT_API APPHUD : public AHUD
 {
     GENERATED_BODY()
@@ -18,9 +18,7 @@ private:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widgets", meta = (AllowPrivateAccess = "true"))
     TSubclassOf<UUserWidget> WaitConnectionWidgetClass;
 
-    UPROPERTY(Replicated)
     TObjectPtr<UScoreboardUserWidget> ScoreboardWidget;
-    UPROPERTY(Replicated)
     TObjectPtr<UUserWidget> WaitConnectionWidget;
 
 protected:
@@ -28,11 +26,9 @@ protected:
     void EndPlay(const EEndPlayReason::Type EndPlayReason);
 
 public:
-     void SetScoreboardData(const TMap<FString, int32>& NewScoreMap);
-
+     void SetScoreboardData(TMap<FString, int32> NewScoreMap);
      void ShowScoreboardWidget();
      void ShowWaitConnectionWidget();
      void HideScoreboardWidget();
      void HideWaitConnectionWidget();
-     void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const;
 };

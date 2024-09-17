@@ -39,4 +39,6 @@ public:
 
     FVector GetDirectionMovement() const;
     void SetDirectionMovement(FVector VectorDirection);
+    bool GetIsMove() const;
+    void SetIsMove(bool MoveState);
 };

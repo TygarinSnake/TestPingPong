@@ -20,13 +20,13 @@ void APPHUD::BeginPlay()
     HideWaitConnectionWidget();
 }
 
-FORCEINLINE void APPHUD::HideScoreboardWidget()
+void APPHUD::HideScoreboardWidget()
 {
     check(ScoreboardWidget);
     ScoreboardWidget->SetVisibility(ESlateVisibility::Hidden);
 }
 
-FORCEINLINE void APPHUD::ShowWaitConnectionWidget()
+void APPHUD::ShowWaitConnectionWidget()
 {
     check(WaitConnectionWidget);
     WaitConnectionWidget->SetVisibility(ESlateVisibility::Visible);
@@ -40,13 +40,13 @@ void APPHUD::EndPlay(const EEndPlayReason::Type EndPlayReason)
     WaitConnectionWidget->RemoveFromParent();
 }
 
-FORCEINLINE void APPHUD::SetScoreboardData(const TMap<FString, int32>& NewScoreMap)
+void APPHUD::SetScoreboardData(TMap<FString, int32> NewScoreMap)
 {
     check(ScoreboardWidget);
     ScoreboardWidget->RefreshScoreboard(NewScoreMap);
 }
 
-FORCEINLINE void APPHUD::ShowScoreboardWidget()
+void APPHUD::ShowScoreboardWidget()
 {
     check(ScoreboardWidget);
     ScoreboardWidget->SetVisibility(ESlateVisibility::Visible);
@@ -56,12 +56,4 @@ void APPHUD::HideWaitConnectionWidget()
 {
     check(WaitConnectionWidget);
     WaitConnectionWidget->SetVisibility(ESlateVisibility::Hidden);
-}
-
-void APPHUD::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
-{
-    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
-    DOREPLIFETIME(APPHUD, ScoreboardWidget);
-    DOREPLIFETIME(APPHUD, WaitConnectionWidget);
 }
